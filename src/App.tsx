@@ -1,46 +1,33 @@
 import { useEffect, useState } from "react";
-import Contador from "./Components/Contador";
-
-const nums = [1, 2, 3, 4, 5];
+import { Route, Routes } from "react-router-dom";
+import Home from "./Pages/Home";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
 
-  async function carregaTarefas() {
-    const resposta = await fetch(
-      "https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks"
-    );
-    const tarefas = await resposta.json();
-    setTasks(tarefas);
-  }
-
   useEffect(() => {
-    carregaTarefas();
-  }, []);
+    async function loadTasks() {
+      try {
+        const response = await fetch(
+          "https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks"
+        );
+        
+        const data = await response.json();
+        setTasks(data);
+        console.log("tarefas:", data);
+      } catch (error) {
+        console.error("Erro ao carregar tarefas", error);
+      }
+    }
 
-  const listaTasks = tasks.map((task) => {
-    return <ItemLista description={task.description} />;
-  });
+    loadTasks();
+  }, []);
 
   return (
     <div>
-      <Contador />
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+      </Routes>
     </div>
   );
-}
-
-type ItemListaProps = {
-  description: string;
-};
-
-function ItemLista({ description }: ItemListaProps) {
-  return <li className="py-2">{description}</li>;
-}
-
-type ItemNumeroProps = {
-  numero: number;
-};
-
-function ItemNumero({ numero }: ItemNumeroProps) {
-  return <li className="py-2">{numero}</li>;
 }
