@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -22,25 +23,15 @@ export default function Header() {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <button className="text-sm px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-              Criar Tarefas
-            </button>
+            <Link to={'/criar-tarefa'}>
+              <button className="w-full text-left px-2 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">
+                Criar Tarefas
+              </button>
+              </Link>
           </div>
 
         </div>
       </div>
-
-      {open && (
-        <div className="md:hidden border-t">
-          <div className="px-4 pt-3 pb-4 space-y-2">
-            <div className="pt-2 border-t mt-2 flex flex-col gap-2">
-              <button className="w-full text-left px-2 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">
-                Criar Tarefas
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 }
