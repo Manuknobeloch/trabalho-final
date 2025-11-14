@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
-import { CreateTaskPage } from "./Pages/CreateTaskPage";
+import { CriarTarefa } from "./Pages/CriarTarefa";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
@@ -28,7 +28,7 @@ export default function App() {
     <div>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/criar-tarefa" element={<CreateTaskPage />} />
+        <Route path="/criar-tarefa" element={<CriarTarefa />} />
       </Routes>
     </div>
   );
