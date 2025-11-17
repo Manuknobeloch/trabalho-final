@@ -15,6 +15,7 @@ export default function Tarefas(props: TarefasProps) {
     const currentIndex = order.indexOf(props.category);
     const nextIndex = currentIndex + 1;
     
+<<<<<<< HEAD
     if (nextIndex < order.length) {
       props.onMoveTask(props.id, order[nextIndex]);
     }
@@ -58,4 +59,27 @@ export default function Tarefas(props: TarefasProps) {
       </div>
     </div>
   )
+=======
+    return (
+            <div id="box" className="bg-white border border-gray-100 shadow-md w-80 mb-2 p-2">
+                <p>#{props.id}</p>
+                <p>{props.titulo}</p>
+                <p>{props.descricao}</p>
+                <div className="flex justify-between m-1">
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+
+                </div>
+            </div>
+    )
+>>>>>>> 255bfb645eea1c536f74626a8c2c6bb7573aba2e
 }
