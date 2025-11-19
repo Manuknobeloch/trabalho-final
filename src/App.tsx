@@ -27,7 +27,7 @@ export default function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<Home tasks={tasks}/>}/>
         <Route path="/criar-tarefa" element={<CriarTarefa />} />
       </Routes>
     </div>

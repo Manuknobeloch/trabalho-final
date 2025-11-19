@@ -2,20 +2,22 @@ import Header from "../Components/Header";
 import Coluna from "../Components/Colunas";
 import React from "react";
 
-type Task = {
-  id?: string | number;
-  titulo?: string;
-  descricao?: string;
-  category?: string;
-  status?: string;
+export type Tarefa = {
+  id: number;
+  title: string;
+  description: string;
+  step: string;
+  category: "Para fazer" | "Em andamento" | "Pronto"; 
 };
 
-export default function Home({
-  tasks = [],
-}: {
-  tasks?: Task[];
-}) {
-  // garantia: tasks sempre é array
+type HomeProps = {
+  tasks: Tarefa[];
+};
+
+export default function Home(props: HomeProps) {
+  const { tasks } = props;
+
+
   const safeTasks = Array.isArray(tasks) ? tasks : [];
 
   return (
