@@ -1,40 +1,42 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-type TaskCategory = "Para fazer" | "Em andamento" | "Pronto";
-type Task = {
-    id: string | number;
-    titulo: string;
-    descricao: string;
-    category: TaskCategory;
-    status: string; 
-}
 
-export function EditarTarefa({
-  tasks,
-  onTaskUpdated,
-}: {
-  tasks: Task[]; 
-  onTaskUpdated?: (t: Task) => void | Promise<void>;
-}) {
+type Task = {
+  id: number;
+  title: string;
+  description: string;
+  step: string;
+  category: "Para fazer" | "Em andamento" | "Pronto"; 
+};
+
+type EditarProps = {
+  tasks: Task[];
+};
+
+export default function EditarTarefas (props: EditarProps) {
+  type OnTaskUpdated = (t: Task) => void | Promise<void>;
+  type TaskCategory = Task['category'];
+  
+  const {tasks} = props;
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>(); 
 
   const taskToEdit = tasks.find(t => String(t.id) === id);
 
-  const [titulo, setTitulo] = useState(taskToEdit?.titulo || "");
-  const [descricao, setDescricao] = useState(taskToEdit?.descricao || "");
-  const [categoria, setCategoria] = useState<TaskCategory>(
-    (taskToEdit?.category as TaskCategory) || "Para fazer"
+  const [titulo, setTitulo] = useState(taskToEdit?.title || "");
+  const [descricao, setDescricao] = useState(taskToEdit?.description || "");
+  const [categoria, setCategoria] = useState<string>(
+    (taskToEdit?.category as string) || "Para fazer"
   );
   
-  const categoriasDisponiveis: TaskCategory[] = ["Para fazer", "Em andamento", "Pronto"];
+  const categoriasDisponiveis: string[] = ["Para fazer", "Em andamento", "Pronto"];
 
   useEffect(() => {
     if (taskToEdit) {
-      setTitulo(taskToEdit.titulo);
-      setDescricao(taskToEdit.descricao);
-      setCategoria(taskToEdit.category as TaskCategory);
+      setTitulo(taskToEdit.title);
+      setDescricao(taskToEdit.description);
+      setCategoria(taskToEdit.category as string);
     } else if (id && tasks.length > 0) {
         navigate("/");
     }
@@ -43,23 +45,19 @@ export function EditarTarefa({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!taskToEdit || !onTaskUpdated) return;
+    if (!taskToEdit || !onTaskUpdated) return; 
 
-  
     const tarefaAtualizada: Task = {
         id: taskToEdit.id,
-        status: taskToEdit.status, 
-        
-        titulo: titulo,
-        descricao: descricao,
-        category: categoria,
+        title: titulo, 
+        description: descricao,
+        step: taskToEdit.step,
+        category: string, 
     };
 
     await onTaskUpdated(tarefaAtualizada);
-
     navigate("/");
-  };
-
+};
 
   return (
     <div className="flex justify-center items-center p-4">
