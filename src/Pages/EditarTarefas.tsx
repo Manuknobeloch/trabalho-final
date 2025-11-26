@@ -1,22 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-
-type Task = {
-  id: number;
-  title: string;
-  description: string;
-  step: string;
-  category: "Para fazer" | "Em andamento" | "Pronto"; 
-};
+import type { Task } from "../types";
 
 type EditarProps = {
   tasks: Task[];
 };
 
 export default function EditarTarefas (props: EditarProps) {
-  type OnTaskUpdated = (t: Task) => void | Promise<void>;
-  type TaskCategory = Task['category'];
+  type TaskCategory = Task['step'];
   
   const {tasks} = props;
   const navigate = useNavigate();
@@ -27,7 +18,7 @@ export default function EditarTarefas (props: EditarProps) {
   const [titulo, setTitulo] = useState(taskToEdit?.title || "");
   const [descricao, setDescricao] = useState(taskToEdit?.description || "");
   const [categoria, setCategoria] = useState<string>(
-    (taskToEdit?.category as string) || "Para fazer"
+    (taskToEdit?.step as string) || "Para fazer"
   );
   
   const categoriasDisponiveis: string[] = ["Para fazer", "Em andamento", "Pronto"];
@@ -36,7 +27,7 @@ export default function EditarTarefas (props: EditarProps) {
     if (taskToEdit) {
       setTitulo(taskToEdit.title);
       setDescricao(taskToEdit.description);
-      setCategoria(taskToEdit.category as string);
+      setCategoria(taskToEdit.step as string);
     } else if (id && tasks.length > 0) {
         navigate("/");
     }
@@ -45,17 +36,15 @@ export default function EditarTarefas (props: EditarProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!taskToEdit || !onTaskUpdated) return; 
+    if (!taskToEdit) return; 
 
     const tarefaAtualizada: Task = {
         id: taskToEdit.id,
         title: titulo, 
         description: descricao,
         step: taskToEdit.step,
-        category: string, 
     };
 
-    await onTaskUpdated(tarefaAtualizada);
     navigate("/");
 };
 

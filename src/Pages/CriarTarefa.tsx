@@ -15,16 +15,22 @@ export function CriarTarefa() {
     "Pronto",
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const novaTarefa = {
-      titulo,
-      descricao,
-      category: categoria,
-      id: Date.now(), 
+      title: titulo,
+      description: descricao,
+      step: categoria,
     };
 
+    const resposta = await fetch('https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks', {
+      method: 'POST',
+      body: JSON.stringify(novaTarefa),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
     console.log("Nova Tarefa Criada:", novaTarefa);
     
     navigate("/");

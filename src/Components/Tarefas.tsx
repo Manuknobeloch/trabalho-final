@@ -6,13 +6,13 @@ type TarefasProps = {
   id: number;
   titulo: string;
   descricao: string;
-  category: TaskCategory;
+  categoria: TaskCategory;
 };
 
 export default function Tarefas(props: TarefasProps) {
   const moveRight = () => {
     const order: TaskCategory[] = ["Para fazer", "Em andamento", "Pronto"];
-    const currentIndex = order.indexOf(props.category);
+    const currentIndex = order.indexOf(props.categoria);
     const nextIndex = currentIndex + 1;
   };
 

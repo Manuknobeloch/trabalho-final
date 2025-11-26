@@ -1,24 +1,28 @@
 import Header from "../Components/Header";
 import Coluna from "../Components/Colunas";
-import React from "react";
+import { useState, useEffect } from "react";
+import type { Task } from "../types";
 
-export type Tarefa = {
-  id: number;
-  title: string;
-  description: string;
-  step: string;
-  category: "Para fazer" | "Em andamento" | "Pronto"; 
-};
+export default function Home() {
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-type HomeProps = {
-  tasks: Tarefa[];
-};
+  useEffect(() => {
+    async function loadTasks() {
+      try {
+        const response = await fetch(
+          "https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks"
+        );
+        
+        const data = await response.json();
+        setTasks(data);
+        console.log("tarefas:", data);
+      } catch (error) {
+        console.error("Erro ao carregar tarefas", error);
+      }
+    }
 
-export default function Home(props: HomeProps) {
-  const { tasks } = props;
-
-
-  const safeTasks = Array.isArray(tasks) ? tasks : [];
+    loadTasks();
+  }, []);
 
   return (
     <div>
@@ -26,15 +30,15 @@ export default function Home(props: HomeProps) {
       <div className="flex justify-center p-4">
         <Coluna
           categoria={"Para fazer"}
-          tasks={safeTasks.filter((t) => t.category === "Para fazer")}
+          tasks={tasks.filter((t) => t.step === "Para fazer")}
         />
         <Coluna
           categoria={"Em andamento"}
-          tasks={safeTasks.filter((t) => t.category === "Em andamento")}
+          tasks={tasks.filter((t) => t.step === "Em andamento")}
         />
         <Coluna
           categoria={"Pronto"}
-          tasks={safeTasks.filter((t) => t.category === "Pronto")}
+          tasks={tasks.filter((t) => t.step === "Pronto")}
         />
       </div>
     </div>
