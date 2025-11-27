@@ -4,6 +4,9 @@ import type { Task } from "../types";
 type ColunaProps= {
     categoria: string;
     tasks: Task[]; 
+    onDeleteTarefa: (id: number)=> void;
+    onMoveTarefa: (id: number)=> void;
+    onAtualizarTarefa: (id: number) => void;
 }
 
 export default function Coluna(props: ColunaProps) {
@@ -21,6 +24,9 @@ export default function Coluna(props: ColunaProps) {
                         titulo={task.title} 
                         descricao={task.description}
                         categoria={task.step}
+                        onDeleteTarefa={props.onDeleteTarefa}
+                        onMoveTarefa={props.onMoveTarefa}
+                        onAtualizarTarefa={props.onAtualizarTarefa}
                     />
                 ))}
 

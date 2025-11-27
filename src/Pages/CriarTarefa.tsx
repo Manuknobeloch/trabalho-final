@@ -77,7 +77,6 @@ export function CriarTarefa() {
             </select>
           </div>
 
-
           <div>
             <label htmlFor="descricao" className="block text-sm font-medium text-gray-700">
               Descrição
@@ -91,7 +90,6 @@ export function CriarTarefa() {
               required
             />
           </div>
-
         
           <button
             type="submit"
@@ -99,6 +97,8 @@ export function CriarTarefa() {
           >
             Criar Tarefa
           </button>
+
+        
         </form>
       </div>
     </div>
