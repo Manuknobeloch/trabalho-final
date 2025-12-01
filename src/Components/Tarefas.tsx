@@ -19,6 +19,12 @@ export default function Tarefas(props: TarefasProps) {
   const moveRight = async () => {
     const order: TaskCategory[] = ["Para fazer", "Em andamento", "Pronto"];
     const currentIndex = order.indexOf(props.categoria);
+
+    if (currentIndex === 2) {
+      alert("A tarefa já está em 'Pronto'.");
+      return;
+    }
+
     const nextIndex = currentIndex + 1;
     const resposta = await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${props.id}/update-step`, {
       method: 'PATCH',
@@ -33,6 +39,12 @@ export default function Tarefas(props: TarefasProps) {
   const moveLeft = async () => {
     const order: TaskCategory[] = ["Para fazer", "Em andamento", "Pronto"];
     const currentIndex = order.indexOf(props.categoria);
+
+    if (currentIndex === 0) {
+      alert("A tarefa já está na primeira coluna.");
+      return;
+    }
+    
     const nextIndex = currentIndex - 1;
     const resposta = await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${props.id}/update-step`, {
       method: 'PATCH',

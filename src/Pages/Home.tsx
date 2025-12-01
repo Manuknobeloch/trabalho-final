@@ -40,7 +40,7 @@ export type KanbanProps = {
 
 function Kanban({ tasks, onDeleteTarefa, onMoveTarefa, onAtualizarTarefa } : KanbanProps) {
   return (
-    <div className="flex justify-center p-4">
+    <div className="flex flex-col md:flex-row justify-center p-4 md:space-x-4">
       <Coluna
         categoria={"Para fazer"}
         tasks={tasks.filter((t) => t.step === "Para fazer")}

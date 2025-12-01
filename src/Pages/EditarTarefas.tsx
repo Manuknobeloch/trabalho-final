@@ -7,43 +7,79 @@ export default function EditarTarefas () {
   
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>(); 
-  console.log(id);
+  
+  const taskId = id ? parseInt(id) : null; 
 
-  const taskToEdit = {
-    title: '',
-    description: '',
-    step: '',
-    id: 0
-  };
+  const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
 
-  const [titulo, setTitulo] = useState(taskToEdit?.title || "");
-  const [descricao, setDescricao] = useState(taskToEdit?.description || "");
-  const [categoria, setCategoria] = useState<string>(
-    (taskToEdit?.step as string) || "Para fazer"
-  );
+  const [titulo, setTitulo] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [categoria, setCategoria] = useState<string>("Para fazer");
   
   const categoriasDisponiveis: string[] = ["Para fazer", "Em andamento", "Pronto"];
 
   useEffect(() => {
-      setTitulo(taskToEdit.title);
-      setDescricao(taskToEdit.description);
-      setCategoria(taskToEdit.step as string);
-  }, [taskToEdit, id, navigate]);
+    async function fetchTask() {
+        if (!taskId) return;
+
+        try {
+            const response = await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${taskId}`);
+            
+            if (!response.ok) {
+                throw new Error("Tarefa não encontrada");
+            }
+            const data: Task = await response.json();
+            
+            setTaskToEdit(data);
+            setTitulo(data.title);
+            setDescricao(data.description);
+            setCategoria(data.step as string);
+            
+        } catch (error) {
+            console.error("Erro ao carregar tarefa:", error);
+        }
+    }
+
+    fetchTask();
+  }, [taskId, navigate]); 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!taskToEdit) return; 
 
-    const tarefaAtualizada: Task = {
-        id: taskToEdit.id,
+    const tarefaAtualizada = {
         title: titulo, 
         description: descricao,
-        step: taskToEdit.step,
+        step: categoria,
     };
 
-    navigate("/");
+    try {
+        const resposta = await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${taskToEdit.id}`, {
+            method: 'PUT', 
+            body: JSON.stringify(tarefaAtualizada),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (resposta.ok) {
+            navigate("/"); 
+        } else {
+            console.error("Falha ao atualizar a tarefa. Status:", resposta.status, "Resposta detalhada:", await resposta.text());
+        }
+    } catch (error) {
+        console.error("Erro na requisição de atualização:", error);
+    }
 };
+
+  if (!taskToEdit) {
+      return (
+          <div className="flex justify-center items-center p-4 h-screen">
+              <p className="text-xl text-gray-700">Carregando tarefa...</p>
+          </div>
+      );
+  }
 
   return (
     <div className="flex justify-center items-center p-4">

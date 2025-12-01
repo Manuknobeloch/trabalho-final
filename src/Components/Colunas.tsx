@@ -12,7 +12,7 @@ type ColunaProps= {
 export default function Coluna(props: ColunaProps) {
     console.log("oiii", props.tasks);
     return (
-        <div className="flex flex-col items-center m-5 w-90 bg-blue-100">
+        <div className="flex flex-col items-center m-5 w-full mb-4 md:flex-1 md:w-auto bg-blue-100">
             <div className={`bg-blue-400 text-black w-full h-10 font-bold p-1 mb-5 flex items-center justify-between`}>
                 <p>{props.categoria} ({props.tasks.length})</p>
             </div>
