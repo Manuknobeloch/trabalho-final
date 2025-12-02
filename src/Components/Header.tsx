@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Header() {
-  const [open, setOpen] = useState(false);
 
   return (
     <header className="bg-white shadow-sm">

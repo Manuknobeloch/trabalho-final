@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <Kanban tasks={tasks} onDeleteTarefa={id => loadTasks()} onMoveTarefa={id => loadTasks()} onAtualizarTarefa ={id => loadTasks()} />
+      <Kanban tasks={tasks} onDeleteTarefa={() => loadTasks()} onMoveTarefa={() => loadTasks()} onAtualizarTarefa={() => loadTasks()} />
     </div>
   );
 }
@@ -36,6 +36,7 @@ export type KanbanProps = {
   tasks: Task[];
   onDeleteTarefa: (id: number) => void;
   onMoveTarefa: (id: number) => void;
+  onAtualizarTarefa: (id: number) => void;
 }
 
 function Kanban({ tasks, onDeleteTarefa, onMoveTarefa, onAtualizarTarefa } : KanbanProps) {

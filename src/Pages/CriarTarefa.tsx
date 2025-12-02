@@ -24,7 +24,7 @@ export function CriarTarefa() {
       step: categoria,
     };
 
-    const resposta = await fetch('https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks', {
+    await fetch('https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks', {
       method: 'POST',
       body: JSON.stringify(novaTarefa),
       headers: {

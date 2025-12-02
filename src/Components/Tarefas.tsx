@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 type TaskCategory = "Para fazer" | "Em andamento" | "Pronto";
@@ -26,14 +25,14 @@ export default function Tarefas(props: TarefasProps) {
     }
 
     const nextIndex = currentIndex + 1;
-    const resposta = await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${props.id}/update-step`, {
+    await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${props.id}/update-step`, {
       method: 'PATCH',
       body: JSON.stringify({ step: order[nextIndex] }),
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    props.onMoveTarefa();
+    props.onMoveTarefa(props.id);
   };
 
   const moveLeft = async () => {
@@ -46,28 +45,27 @@ export default function Tarefas(props: TarefasProps) {
     }
     
     const nextIndex = currentIndex - 1;
-    const resposta = await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${props.id}/update-step`, {
+    await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${props.id}/update-step`, {
       method: 'PATCH',
       body: JSON.stringify({ step: order[nextIndex] }),
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    props.onMoveTarefa();
+    props.onMoveTarefa(props.id);
   };
 
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const resposta = await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${props.id}`, {
+    await fetch(`https://pacaro-tarefas.netlify.app/api/manuela-knobeloch/tasks/${props.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    const { id } = await resposta.json();
     console.log("Tarefa deletada");
-    props.onDeleteTarefa(id)
+    props.onDeleteTarefa(props.id);
   };
 
   const handleUpdate = async (e: React.FormEvent) => {
